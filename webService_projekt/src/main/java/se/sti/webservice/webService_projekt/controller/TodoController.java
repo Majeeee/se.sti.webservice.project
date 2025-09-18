@@ -2,26 +2,37 @@ package se.sti.webservice.webService_projekt.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import se.sti.webservice.webService_projekt.model.Todo;
-import se.sti.webservice.webService_projekt.service.TodoService;
+import se.sti.webservice.webService_projekt.service.UserService;
 
 @RestController
-@RequestMapping("/api/todos")
+@RequestMapping("/users/{userId}/todos")
 public class TodoController {
 
-    private final TodoService toDoService;
+    private final UserService userService;
 
-    public TodoController(TodoService toDoService) {
-        this.toDoService = toDoService;
+    public TodoController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<Todo> createToDo(@RequestBody Todo toDo) {
-        Todo created = toDoService.createToDo(toDo);
+    public ResponseEntity<Todo> createToDo(
+            @PathVariable String userId,
+            @RequestBody Todo toDo) {
+
+        Todo created = userService.addTodoToUser(userId, toDo);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{todoId}")
+    public ResponseEntity<Todo> updateToDo(
+            @PathVariable String userId,
+            @PathVariable String todoId,
+            @RequestBody Todo updatedToDo) {
+
+        Todo updated = userService.updateToDo(userId, todoId, updatedToDo);
+        return ResponseEntity.ok(updated);
     }
 }
