@@ -1,0 +1,22 @@
+# docker-compose.yml
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  webapp:
+    build: .
+    container_name: webapp
+    depends_on:
+      - mongodb
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/mydb
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo_data:

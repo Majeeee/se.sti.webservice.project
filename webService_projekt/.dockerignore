@@ -1,0 +1,23 @@
+# Ignorera bygg- och kompilationsfiler
+build/
+target/
+.gradle/
+out/
+
+# Ignorera utvecklingsverktyg och temporära filer
+*.log
+*.tmp
+*.bak
+
+# Ignorera versionshantering
+.git
+.gitignore
+
+# Ignorera IDE-specifika filer
+.idea/
+*.iml
+
+# Ignorera andra onödiga filer
+Dockerfile
+docker-compose.yml
+README.md
